@@ -6,8 +6,24 @@
 #include <ctime>
 #include <chrono> // For measuring execution time
 
-// Function prototype
-void bubble_sort(int *array, int size);
+void bubble_sort(int *array, int size) {
+    if (!size)
+        return;
+
+    for (int i = 0; i < size; i++) {
+        bool swapped = false;
+        for (int j = 0; j < size - 1 - i; j++) {
+            if (array[j] > array[j + 1]) {
+                int tmp = array[j + 1];
+                array[j + 1] = array[j];
+                array[j] = tmp;
+                swapped = true;
+            }
+        }
+        if (!swapped)
+            break;
+    }
+}
 
 // Helper function to print an array
 void print_array(const int *array, int size) {
@@ -94,21 +110,6 @@ void test_bubble_sort() {
 
     std::cout << "Average time to sort large array over " << num_runs << " runs: " 
               << average_time << " seconds\n";
-}
-
-void bubble_sort(int *array, int size) {
-    if (!size)
-        return;
-
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size - 1; j++) {
-            if (array[j] > array[j + 1]) {
-                int tmp = array[j + 1];
-                array[j + 1] = array[j];
-                array[j] = tmp;
-            }
-        }
-    }
 }
 
 int main() {
