@@ -6,12 +6,16 @@
 #include <ctime>
 #include <chrono> // For measuring execution time
 
+// Time complexity: O(N^2)
+// Space complexity: O(1)
 void bubble_sort(int *array, int size) {
     if (!size)
         return;
 
     for (int i = 0; i < size; i++) {
         bool swapped = false;
+        // size - 1 - i because (i + 1) elements are bubbled up in previous stages
+        // and they are already sorted
         for (int j = 0; j < size - 1 - i; j++) {
             if (array[j] > array[j + 1]) {
                 int tmp = array[j + 1];

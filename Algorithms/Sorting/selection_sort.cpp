@@ -7,10 +7,14 @@
 #include <chrono> // For measuring execution time
 #include <cstdint>
 
+// Time complexity: O(N^2)
+// Space complexity: O(1)
+// Performs better than the bubble sort for random numbers
 void selection_sort(int *array, int size) {
     for (int i = 0; i < size; i++) {
         int min_val = array[i];
         int min_idx = i;
+        // numbers with index from 0 to i are already sorted
         for (int j = i + 1; j < size; j++) {
             if (min_val > array[j]) {
                 min_val = array[j];
