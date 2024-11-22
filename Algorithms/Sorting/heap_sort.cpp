@@ -7,36 +7,33 @@
 #include <chrono> // For measuring execution time
 #include <cstdint>
 
-#define MAX_LEN 10000
-int heap[MAX_LEN];
-
 // Time complexity: O(log N)
 void heapify(int *array, int idx, int size) {
-    int smallest_val = array[idx];
-    int smallest_idx = idx;
+    int largest_val = array[idx];
+    int largest_idx = idx;
 
     // left child
     if (2 * idx < size) {
-        if (smallest_val > array[2 * idx]) {
-            smallest_val = array[2 * idx];
-            smallest_idx = 2 * idx;
+        if (largest_val < array[2 * idx]) {
+            largest_val = array[2 * idx];
+            largest_idx = 2 * idx;
         }
     }
     // right child
     if (2 * idx + 1 < size) {
-        if (smallest_val > array[2 * idx + 1]) {
-            smallest_val = array[2 * idx + 1];
-            smallest_idx = 2 * idx + 1;
+        if (largest_val < array[2 * idx + 1]) {
+            largest_val = array[2 * idx + 1];
+            largest_idx = 2 * idx + 1;
         }
     }
 
-    if (idx != smallest_idx) {
-        // swap idx and smallest_idx
+    if (idx != largest_idx) {
+        // swap idx and largest_idx
         int tmp = array[idx];
-        array[idx] = array[smallest_idx];
-        array[smallest_idx] = tmp;
+        array[idx] = array[largest_idx];
+        array[largest_idx] = tmp;
         // recursively call heapify()
-        heapify(array, smallest_idx, size);
+        heapify(array, largest_idx, size);
     }
 }
 
@@ -49,7 +46,7 @@ void build_max_heap(int *array, int size) {
 }
 
 // Time complexity: O(1)
-int remove_min(int *array, int size)
+int remove_max(int *array, int size)
 {
     if (size <= 0)
         return 0;
@@ -57,28 +54,19 @@ int remove_min(int *array, int size)
     int tmp = array[0];
     array[0] = array[size - 1];
     array[size - 1] = tmp;
-
-    int min = INT_MAX;
-    for (int i = 0; i < size; i++) {
-        if (min > array[i])
-            min = array[i];
-    }
     return array[size - 1];
 }
 
 // Time complexity: O(N log N)
 void heap_sort(int *array, int size) {
-    // O(N)
-    for (int i = 0; i < size; i++)
-        heap[i] = array[i];
     // O(N log N)
-    build_max_heap(heap, size);
+    build_max_heap(array, size);
     // O(N log N)
     for (int i = 0; i < size; i++) {
         // O(1)
-        array[i] = remove_min(heap, size - i);
+        array[size - i - 1] = remove_max(array, size - i);
         // O(log N)
-        heapify(heap, 0, size - i - 1);
+        heapify(array, 0, size - i - 1);
     }
 }
 
